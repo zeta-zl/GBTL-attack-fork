@@ -14,7 +14,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from fastchat.model import get_conversation_template
 from transformers import (AutoModelForCausalLM, AutoTokenizer, GPT2LMHeadModel,
-                          GPTJForCausalLM, GPTNeoXForCausalLM,
+                          GPTJForCausalLM, GPTNeoXForCausalLM, GPTNeoForCausalLM,
                           LlamaForCausalLM, OPTForCausalLM, T5ForConditionalGeneration)
 import enchant
 # import nltk
@@ -58,7 +58,7 @@ def get_embedding_matrix(model):
         raise ValueError(f"Unknown model type: {type(model)}")
 
 def get_embeddings(model, input_ids):
-    if isinstance(model, GPTJForCausalLM) or isinstance(model, GPT2LMHeadModel):
+    if isinstance(model, GPTJForCausalLM) or isinstance(model, GPT2LMHeadModel) or isinstance(model, GPTNeoForCausalLM):
         return model.transformer.wte(input_ids).half()
     elif isinstance(model, LlamaForCausalLM):
         return model.model.embed_tokens(input_ids)
