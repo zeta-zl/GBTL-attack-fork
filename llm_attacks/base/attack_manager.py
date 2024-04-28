@@ -32,7 +32,7 @@ class NpEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 def get_embedding_layer(model):
-    if isinstance(model, GPTJForCausalLM) or isinstance(model, GPT2LMHeadModel):
+    if isinstance(model, GPTJForCausalLM) or isinstance(model, GPT2LMHeadModel) or isinstance(model, GPTNeoForCausalLM):
         return model.transformer.wte
     elif isinstance(model, LlamaForCausalLM):
         return model.model.embed_tokens
@@ -44,7 +44,7 @@ def get_embedding_layer(model):
         raise ValueError(f"Unknown model type: {type(model)}")
 
 def get_embedding_matrix(model):
-    if isinstance(model, GPTJForCausalLM) or isinstance(model, GPT2LMHeadModel):
+    if isinstance(model, GPTJForCausalLM) or isinstance(model, GPT2LMHeadModel) or isinstance(model, GPTNeoForCausalLM):
         return model.transformer.wte.weight
     elif isinstance(model, LlamaForCausalLM):
         return model.model.embed_tokens.weight
